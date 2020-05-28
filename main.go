@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -18,28 +17,21 @@ import (
 type strContextKey string
 
 func main() {
-	var (
-		addr              = ":8080"
-		readHeaderTimeout = 1 * time.Second
-		writeTimeout      = 10 * time.Second
-		idleTimeout       = 90 * time.Second
-		maxHeaderBytes    = http.DefaultMaxHeaderBytes
-	)
-
 	config := config.LoadConfig(".")
 
 	ctx := context.Background()
 	log := handler.NewLogger(config)
+
 	userService := service.NewUserService()
 
 	ctx = context.WithValue(ctx, strContextKey("config"), config)
-	ctx = context.WithValue(ctx, strContextKey("log"), log)
+	ctx = context.WithValue(ctx, strContextKey("logg"), log)
 	ctx = context.WithValue(ctx, strContextKey("userService"), userService)
 
 	var schema *graphql.Schema
 	schemaString, err := handler.GetSchema()
 	if err != nil {
-		fmt.Printf("Error getting schema: %s", err)
+		log.Fatal("Error getting schema: ", err)
 	}
 	schema = graphql.MustParseSchema(schemaString, &resolver.RootResolver{})
 
@@ -47,7 +39,7 @@ func main() {
 
 	graphiqlHandler, err := graphiql.NewGraphiqlHandler("/graphql")
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 
 	mux.Handle("/graphql", handler.AddContext(ctx, &relay.Handler{Schema: schema}))
@@ -55,12 +47,12 @@ func main() {
 
 	// Configure the HTTP server.
 	server := &http.Server{
-		Addr:              addr,
+		Addr:              config.Address,
+		ReadHeaderTimeout: config.ReadHeaderTimeOut * time.Second,
+		WriteTimeout:      config.WriteTimeout * time.Second,
+		IdleTimeout:       config.IdleTimeout * time.Second,
+		MaxHeaderBytes:    config.MaxHeaderBytes,
 		Handler:           mux,
-		ReadHeaderTimeout: readHeaderTimeout,
-		WriteTimeout:      writeTimeout,
-		IdleTimeout:       idleTimeout,
-		MaxHeaderBytes:    maxHeaderBytes,
 	}
 
 	log.Fatal(server.ListenAndServe())

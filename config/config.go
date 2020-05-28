@@ -2,7 +2,7 @@ package config
 
 import (
 	"log"
-	"strconv"
+	"net/http"
 	"time"
 
 	"github.com/spf13/viper"
@@ -15,16 +15,20 @@ type viperLog struct {
 }
 
 type Config struct {
-	AppName     string
-	DBHost      string
-	DBPort      string
-	DBUser      string
-	DBPassword  string
-	DBName      string
-	JWTSecret   string
-	JWTExpireIn time.Duration
-	DebugMode   bool
-	Log         *viperLog
+	AppName           string
+	Address           string
+	DBHost            string
+	DBPort            string
+	DBUser            string
+	DBPassword        string
+	DBName            string
+	JWTSecret         string
+	JWTExpireIn       time.Duration
+	WriteTimeout      time.Duration
+	IdleTimeout       time.Duration
+	ReadHeaderTimeOut time.Duration
+	MaxHeaderBytes    int
+	Log               *viperLog
 }
 
 // LoadConfig loads main app configuration
@@ -41,8 +45,6 @@ func LoadConfig(path string) *Config {
 		}
 	}
 
-	debugBool, _ := strconv.ParseBool(config.GetString("LOG_DEBUG_MODE"))
-
 	logConfig := &viperLog{
 		Level:            config.GetString("LOG_LEVEL"),
 		OutputPaths:      []string{"stdout", config.GetString("LOG_OUTPUT_PATH")},
@@ -51,6 +53,7 @@ func LoadConfig(path string) *Config {
 
 	return &Config{
 		AppName: config.GetString("APP_NAME"),
+		Address: config.GetString("ADDRESS"),
 
 		DBHost:     config.GetString("DB_HOST"),
 		DBPort:     config.GetString("DB_PORT"),
@@ -61,7 +64,11 @@ func LoadConfig(path string) *Config {
 		JWTSecret:   config.GetString("AUTH_JWT_SECRET"),
 		JWTExpireIn: config.GetDuration("AUTH_JWT_EXPIRE_IN"),
 
-		DebugMode: debugBool,
-		Log:       logConfig,
+		WriteTimeout:      config.GetDuration("WRITE_TIMEOUT"),
+		IdleTimeout:       config.GetDuration("IDLE_TIMEOUT"),
+		ReadHeaderTimeOut: config.GetDuration("READ_HEADER_TIMEOUT"),
+		MaxHeaderBytes:    http.DefaultMaxHeaderBytes,
+
+		Log: logConfig,
 	}
 }
