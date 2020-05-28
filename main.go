@@ -9,6 +9,7 @@ import (
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
 	"github.com/mrtrom/go-graphql-example-api/config"
+	"github.com/mrtrom/go-graphql-example-api/db"
 	"github.com/mrtrom/go-graphql-example-api/handler"
 	"github.com/mrtrom/go-graphql-example-api/resolver"
 	"github.com/mrtrom/go-graphql-example-api/service"
@@ -21,6 +22,8 @@ func main() {
 
 	ctx := context.Background()
 	log := handler.NewLogger(config)
+
+	db := db.CreateConnetion(config, log)
 
 	userService := service.NewUserService()
 
