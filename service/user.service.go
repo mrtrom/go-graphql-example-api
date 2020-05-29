@@ -1,8 +1,6 @@
 package service
 
 import (
-	"time"
-
 	"github.com/mrtrom/go-graphql-example-api/model"
 )
 
@@ -19,9 +17,9 @@ func NewUserService() *UserService {
 
 func (u *UserService) GetOne() (*model.User, error) {
 	user := &model.User{
-		ID:        "1",
-		CreatedAt: time.Now().String(),
-		Email:     "example@email.com",
+		ID:       1,
+		Name:     "Name",
+		LastName: "Last name",
 	}
 
 	return user, nil

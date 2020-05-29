@@ -1,7 +1,8 @@
 package model
 
 type User struct {
-	ID        string
-	Email     string
-	CreatedAt string `db:"created_at"`
+	// gorm.Model
+	ID       uint `gorm:"primary_key"`
+	Name     string
+	LastName string
 }

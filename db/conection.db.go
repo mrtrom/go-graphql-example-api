@@ -1,28 +1,24 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 
 	"github.com/mrtrom/go-graphql-example-api/config"
 	"go.uber.org/zap"
 )
 
 // CreateConnetion creates a mysql connection
-func CreateConnetion(config *config.Config, log *zap.SugaredLogger) *sql.DB {
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", config.DBUser, config.DBPassword, config.DBHost, config.DBPort, config.DBName))
-	if err != nil {
-		log.Fatal(err)
-	}
-	// defer db.Close()
-
-	err = db.Ping()
+func CreateConnetion(config *config.Config, log *zap.SugaredLogger) *gorm.DB {
+	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", config.DBUser, config.DBPassword, config.DBHost, config.DBPort, config.DBName))
 	if err != nil {
 		log.Error("MySQL is not connected! :(")
-		log.Panic(err.Error())
+		log.Panic(err)
 	}
+
+	db.LogMode(true)
 
 	return db
 }

@@ -7,8 +7,8 @@ scalar Time
 
 type User {
   id: ID!
-  email: String
-  createdAt: Time
+  name: String
+  lastName: String
 }
 
 type Query {
