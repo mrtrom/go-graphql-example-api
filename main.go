@@ -25,10 +25,10 @@ func main() {
 
 	db := db.CreateConnetion(config, log)
 
-	userService := service.NewUserService()
+	userService := service.NewUserService(db, log)
 
 	ctx = context.WithValue(ctx, strContextKey("config"), config)
-	ctx = context.WithValue(ctx, strContextKey("logg"), log)
+	ctx = context.WithValue(ctx, strContextKey("log"), log)
 	ctx = context.WithValue(ctx, strContextKey("userService"), userService)
 
 	var schema *graphql.Schema

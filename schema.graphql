@@ -4,11 +4,16 @@ schema {
 }
 
 scalar Time
+scalar Date
+scalar DateTime
 
 type User {
   id: ID!
+  createdAt: Time
+  updatedAt: Time
   name: String
-  lastName: String
+  username: String!
+  email: String!
 }
 
 type Query {

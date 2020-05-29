@@ -7,6 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 
 	"github.com/mrtrom/go-graphql-example-api/config"
+	"github.com/mrtrom/go-graphql-example-api/model"
 	"go.uber.org/zap"
 )
 
@@ -19,6 +20,8 @@ func CreateConnetion(config *config.Config, log *zap.SugaredLogger) *gorm.DB {
 	}
 
 	db.LogMode(true)
+
+	db.AutoMigrate(&model.User{})
 
 	return db
 }
