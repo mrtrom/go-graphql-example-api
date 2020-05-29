@@ -1,6 +1,7 @@
 package resolver
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/graph-gophers/graphql-go"
@@ -12,7 +13,7 @@ type UserResolver struct {
 }
 
 func (r *UserResolver) ID() graphql.ID {
-	return graphql.ID(r.u.ID)
+	return graphql.ID(strconv.Itoa(int(r.u.ID)))
 }
 
 func (r *UserResolver) CreatedAt() (*graphql.Time, error) {

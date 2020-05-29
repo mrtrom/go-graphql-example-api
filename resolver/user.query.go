@@ -9,7 +9,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// User resolver
+// User method
 func (r *RootResolver) User(ctx context.Context) (*UserResolver, error) {
 	log := ctx.Value(config.CTXLog).(*zap.SugaredLogger)
 	user, err := ctx.Value(config.CTXUserService).(*service.UserService).GetOne()
