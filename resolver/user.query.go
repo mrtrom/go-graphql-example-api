@@ -4,15 +4,18 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/mrtrom/go-graphql-example-api/config"
 	"github.com/mrtrom/go-graphql-example-api/service"
+	"go.uber.org/zap"
 )
 
-// Users func
-func (r *RootResolver) Users(ctx context.Context) (*userResolver, error) {
-	user, err := ctx.Value("userService").(*service.UserService).GetOne()
+// User resolver
+func (r *RootResolver) User(ctx context.Context) (*UserResolver, error) {
+	log := ctx.Value(config.CTXLog).(*zap.SugaredLogger)
+	user, err := ctx.Value(config.CTXUserService).(*service.UserService).GetOne()
 	if err != nil {
-		fmt.Printf("there was an error here %s", err)
+		log.Error(fmt.Sprintf("There was an error %s", err))
 	}
 
-	return &userResolver{user}, nil
+	return &UserResolver{user}, nil
 }

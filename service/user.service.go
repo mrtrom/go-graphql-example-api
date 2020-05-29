@@ -16,12 +16,6 @@ func NewUserService(db *gorm.DB, log *zap.SugaredLogger) *UserService {
 }
 
 func (u *UserService) GetOne() (*model.User, error) {
-	// user := &model.User{
-	// 	ID:       1,
-	// 	Name:     "Name",
-	// 	LastName: "Last name",
-	// }
-
 	user := &model.User{}
 
 	u.db.First(&user, 1)

@@ -8,17 +8,15 @@ import (
 	"github.com/friendsofgo/graphiql"
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
-	"github.com/mrtrom/go-graphql-example-api/config"
+	cfg "github.com/mrtrom/go-graphql-example-api/config"
 	"github.com/mrtrom/go-graphql-example-api/db"
 	"github.com/mrtrom/go-graphql-example-api/handler"
 	"github.com/mrtrom/go-graphql-example-api/resolver"
 	"github.com/mrtrom/go-graphql-example-api/service"
 )
 
-type strContextKey string
-
 func main() {
-	config := config.LoadConfig(".")
+	config := cfg.LoadConfig(".")
 
 	ctx := context.Background()
 	log := handler.NewLogger(config)
@@ -27,9 +25,9 @@ func main() {
 
 	userService := service.NewUserService(db, log)
 
-	ctx = context.WithValue(ctx, strContextKey("config"), config)
-	ctx = context.WithValue(ctx, strContextKey("log"), log)
-	ctx = context.WithValue(ctx, strContextKey("userService"), userService)
+	ctx = context.WithValue(ctx, cfg.CTXConfig, config)
+	ctx = context.WithValue(ctx, cfg.CTXLog, log)
+	ctx = context.WithValue(ctx, cfg.CTXUserService, userService)
 
 	var schema *graphql.Schema
 	schemaString, err := handler.GetSchema()

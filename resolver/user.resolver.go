@@ -7,15 +7,15 @@ import (
 	"github.com/mrtrom/go-graphql-example-api/model"
 )
 
-type userResolver struct {
+type UserResolver struct {
 	u *model.User
 }
 
-func (r *userResolver) ID() graphql.ID {
+func (r *UserResolver) ID() graphql.ID {
 	return graphql.ID(r.u.ID)
 }
 
-func (r *userResolver) CreatedAt() (*graphql.Time, error) {
+func (r *UserResolver) CreatedAt() (*graphql.Time, error) {
 	if r.u.CreatedAt.IsZero() {
 		return nil, nil
 	}
@@ -24,7 +24,7 @@ func (r *userResolver) CreatedAt() (*graphql.Time, error) {
 	return &graphql.Time{Time: t}, err
 }
 
-func (r *userResolver) UpdatedAt() (*graphql.Time, error) {
+func (r *UserResolver) UpdatedAt() (*graphql.Time, error) {
 	if r.u.UpdatedAt.IsZero() {
 		return nil, nil
 	}
@@ -33,14 +33,14 @@ func (r *userResolver) UpdatedAt() (*graphql.Time, error) {
 	return &graphql.Time{Time: t}, err
 }
 
-func (r *userResolver) Name() *string {
+func (r *UserResolver) Name() *string {
 	return &r.u.Name
 }
 
-func (r *userResolver) Username() string {
+func (r *UserResolver) Username() string {
 	return r.u.Username
 }
 
-func (r *userResolver) Email() string {
+func (r *UserResolver) Email() string {
 	return r.u.Email
 }
