@@ -24,10 +24,12 @@ func main() {
 	db := db.CreateConnetion(config, log)
 
 	userService := service.NewUserService(db, log)
+	chatService := service.NewChatService(db, log)
 
 	ctx = context.WithValue(ctx, cfg.CTXConfig, config)
 	ctx = context.WithValue(ctx, cfg.CTXLog, log)
 	ctx = context.WithValue(ctx, cfg.CTXUserService, userService)
+	ctx = context.WithValue(ctx, cfg.CTXChatService, chatService)
 
 	var schema *graphql.Schema
 	schemaString, err := handler.GetSchema()

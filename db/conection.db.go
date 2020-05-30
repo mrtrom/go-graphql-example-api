@@ -21,7 +21,7 @@ func CreateConnetion(config *config.Config, log *zap.SugaredLogger) *gorm.DB {
 
 	db.LogMode(true)
 
-	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.User{}, &model.Chat{})
 
 	return db
 }

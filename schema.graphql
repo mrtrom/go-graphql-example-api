@@ -1,6 +1,6 @@
 schema {
   query: Query
-  # mutation: Mutation
+  mutation: Mutation
 }
 
 scalar Time
@@ -16,10 +16,18 @@ type User {
   email: String!
 }
 
-type Query {
-  user: User!
+type Chat {
+  id: ID!
+  from: String
+  content: String
+  createdAt: Time
 }
 
-# type Mutation {
-#   createNote(userID: ID!, note: NoteInput!): Note!
-# }
+type Query {
+  user: User!
+  chats: [Chat]
+}
+
+type Mutation {
+  createChat(content: String!, from: String!): Chat!
+}
