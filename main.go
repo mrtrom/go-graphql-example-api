@@ -11,6 +11,7 @@ import (
 	cfg "github.com/mrtrom/go-graphql-example-api/config"
 	"github.com/mrtrom/go-graphql-example-api/db"
 	"github.com/mrtrom/go-graphql-example-api/handler"
+	"github.com/mrtrom/go-graphql-example-api/middleware"
 	"github.com/mrtrom/go-graphql-example-api/resolver"
 	"github.com/mrtrom/go-graphql-example-api/service"
 )
@@ -45,7 +46,7 @@ func main() {
 		log.Panic(err)
 	}
 
-	mux.Handle("/graphql", handler.AddContext(ctx, &relay.Handler{Schema: schema}))
+	mux.Handle("/graphql", handler.AddContext(ctx, middleware.CORSMiddleware(&relay.Handler{Schema: schema})))
 	mux.Handle("/graphiql", graphiqlHandler)
 
 	// Configure the HTTP server.
