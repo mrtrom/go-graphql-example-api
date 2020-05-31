@@ -22,3 +22,11 @@ func (u *UserService) GetOne() (*model.User, error) {
 
 	return user, nil
 }
+
+func (u *UserService) CreateUser(user *model.User) (*model.User, error) {
+	if err := u.db.Create(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}

@@ -29,5 +29,6 @@ type Query {
 }
 
 type Mutation {
+  createUser(email: String!, username: String!): User!
   createChat(content: String!, from: String!): Chat!
 }
