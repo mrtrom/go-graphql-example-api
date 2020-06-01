@@ -3,16 +3,14 @@ module github.com/mrtrom/go-graphql-example-api
 go 1.14
 
 require (
-	github.com/friendsofgo/graphiql v0.2.2
+	github.com/99designs/gqlgen v0.11.3
+	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/graph-gophers/graphql-go v0.0.0-20200309224638-dae41bde9ef9
+	github.com/gorilla/websocket v1.4.2
 	github.com/jinzhu/gorm v1.9.12
-	github.com/jmoiron/sqlx v1.2.0
-	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
-	github.com/rs/xid v1.2.1 // indirect
+	github.com/rs/cors v1.7.0
 	github.com/spf13/viper v1.7.0
+	github.com/vektah/gqlparser/v2 v2.0.1
 	go.uber.org/zap v1.15.0
-	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37 // indirect
-	golang.org/x/net v0.0.0-20200520182314-0ba52f642ac2
-	gopkg.in/nicksrandall/dataloader.v5 v5.0.0 // indirect
+	golang.org/x/net v0.0.0-20200528225125-3c3fba18258b
 )

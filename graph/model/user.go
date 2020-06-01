@@ -3,7 +3,7 @@ package model
 import "time"
 
 type User struct {
-	ID        uint      `gorm:"primary_key"`
+	ID        int       `gorm:"primary_key"`
 	CreatedAt time.Time `gorm:"column:created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at"`
 	Name      string

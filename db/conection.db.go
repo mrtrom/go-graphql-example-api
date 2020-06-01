@@ -7,7 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 
 	"github.com/mrtrom/go-graphql-example-api/config"
-	"github.com/mrtrom/go-graphql-example-api/model"
+	"github.com/mrtrom/go-graphql-example-api/graph/model"
 	"go.uber.org/zap"
 )
 
