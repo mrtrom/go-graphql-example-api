@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 
 	h "github.com/99designs/gqlgen/graphql/handler"
@@ -50,7 +51,10 @@ func main() {
 		// r.Use(dataloaders.NewMiddleware(db)...)
 
 		schema := generated.NewExecutableSchema(generated.Config{
-			Resolvers: &resolver.Resolver{},
+			Resolvers: &resolver.Resolver{
+				UserChannels: map[string]chan string{},
+				Mutex:        sync.Mutex{},
+			},
 			// Directives: generated.DirectiveRoot{},
 			// Complexity: generated.ComplexityRoot{},
 		})
@@ -58,7 +62,8 @@ func main() {
 		srv := h.New(schema)
 		// srv.Use(extension.FixedComplexityLimit(300))
 
-		srv.AddTransport(&transport.Websocket{
+		srv.AddTransport(transport.POST{})
+		srv.AddTransport(transport.Websocket{
 			KeepAlivePingInterval: 10 * time.Second,
 			Upgrader: websocket.Upgrader{
 				CheckOrigin: func(r *http.Request) bool {
